@@ -1,0 +1,82 @@
+I"�<h1 id="table-join">Table Join</h1>
+<ul>
+  <li>두개 이상의 테이블을 묶어서(Join) 데이터를 조회/수정 할 때 사용한다.</li>
+  <li>사용 이유
+    <ul>
+      <li>필요한 칼럼들을 하나의 테이블에다가 전부 넣을 수 없다.</li>
+      <li>정규화과정이 필요하며 목적에 맞게 테이블을 분리시킬 필요가 있다
+        <blockquote>
+          <p>속도 이슈에 따라 정규화/비정규화 과정을 통해 튜닝 절차 있음</p>
+        </blockquote>
+      </li>
+      <li>종류
+        <ul>
+          <li>INNER JOIN</li>
+          <li>LEFT/RIGHT JOIN</li>
+          <li>SELF JOIN</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="inner-join">INNER JOIN</h2>
+<ul>
+  <li>
+    <p>Driving 테이블(LEFT) 과 Driven 테이블(RIGHT) 로부터 조건에 모두충족하는 레코드만 출력</p>
+
+    <p><img src="https://user-images.githubusercontent.com/46861704/103476255-73344b80-4df7-11eb-9a73-2d2ee6b88b12.PNG" alt="INNER_JOIN" /></p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  SELECT t1.column, t2.column (보여지는 값)
+  FROM [table_name1] t1
+  JOIN [table_name2] t2
+  ON t1.id = t2.dep_id (조건)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>다음과 같은 데이터베이스가 있다고 하자. 두개의 데이터베이스를 INNER JOIN 할 시,  다음과 같이 나타나게 된다.</p>
+
+    <p><img src="https://user-images.githubusercontent.com/46861704/103476771-eb9d0b80-4dfb-11eb-8e34-70691bfface7.png" alt="INNER_JOIN_EX1" />
+  <img src="https://user-images.githubusercontent.com/46861704/103476973-93ff9f80-4dfd-11eb-8ec7-1f6c8933a2a4.png" alt="INNER_JOIN_EX2" /></p>
+  </li>
+</ul>
+
+<h2 id="leftright-join">LEFT/RIGHT JOIN</h2>
+<ul>
+  <li>
+    <p>Driving 테이블(LEFT) 과 Driven 테이블(RIGHT) 로부터 Driving 테이블의 레코드는 모두 출력하고, Driven 테이블은 조건에 만족하든/만족안하든 출력(NULL 출력)</p>
+  </li>
+  <li>
+    <p>INNER JOIN과 같은 데이터베이스에서, User1에는 (‘영진’,5,’남’), User2에는 (‘초희’,’한기고’,100) 데이터가 추가로 입력되었다. 여기서 LEFT(RIGHT) JOIN시, 다음과 같이 나타나게 된다.
+  <img src="https://user-images.githubusercontent.com/46861704/103477349-72081c00-4e01-11eb-8809-b73a38fa623b.png" alt="LEFT_JOIN" /></p>
+
+    <p><img src="https://user-images.githubusercontent.com/46861704/103477368-a24fba80-4e01-11eb-87e6-7e37572c2afe.png" alt="RIGHT_JOIN" /></p>
+  </li>
+  <li>
+    <p>LEFT JOIN시 LEFT(User1) 테이블의 데이터는 모두 출력되고, RIGHT(User2) 테이블의 정보도 출력이 되지만, RIGHT 테이블에 없는 데이터는 NULL로 출력 되는것을 볼 수 있다. 그 반대인 RIGHT JOIN 역시 비슷한 결과가 나오게 된다.(아래 그림과 같은 느낌이다.)</p>
+
+    <p><img src="https://user-images.githubusercontent.com/46861704/103477419-1db16c00-4e02-11eb-9d2a-d093fc540a1f.png" alt="image" /></p>
+  </li>
+  <li>
+    <p>그렇다면, 위 그림에서 INNER JOIN 결과값이 빠지게 하려면 어떻게 해야될까?
+  <img src="https://user-images.githubusercontent.com/46861704/103477487-ba740980-4e02-11eb-81ae-e82acbe96acf.png" alt="image" /></p>
+
+    <p>WHERE문으로 조건만 추가해주면 된다.</p>
+
+    <p><img src="https://user-images.githubusercontent.com/46861704/103477511-feffa500-4e02-11eb-9c09-aa68f84f8b45.png" alt="image" /></p>
+  </li>
+</ul>
+
+<h2 id="self-join">SELF JOIN</h2>
+<ul>
+  <li>
+    <p>지금까지는 2개의 테이블()을 사용하여 JOIN을 사용하였는데, SELF JOIN 테이블은 한 테이블을 Alias(AS)를 통해 추상적인 2개의 테이블로 보고, JOIN을 한 것이다.</p>
+
+    <p><img src="https://user-images.githubusercontent.com/46861704/103477816-9960e800-4e05-11eb-897d-3d447f186d18.png" alt="image" /></p>
+  </li>
+  <li>
+    <p>다음과 같은 테이블이 있다고 하자. 각 레코드에는 id와 name, boss_id가 저장되어 있고, 이를 통해 누가 누구의 부하직원인지 알고 싶을 때, 다음과 같이 SELF JOIN을 활용할 수 있다.</p>
+
+    <p><img src="https://user-images.githubusercontent.com/46861704/103477872-3de32a00-4e06-11eb-985c-e1e23749e768.png" alt="image" /></p>
+  </li>
+</ul>
+:ET
