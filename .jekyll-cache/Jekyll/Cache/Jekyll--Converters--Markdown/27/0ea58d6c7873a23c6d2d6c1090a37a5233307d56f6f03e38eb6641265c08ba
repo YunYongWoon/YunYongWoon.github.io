@@ -1,0 +1,102 @@
+I"�<h1 id="mysql">MySQL</h1>
+<ul>
+  <li>무료이면서, 오픈소스이고, 3대 데이터베이스 중에 하나</li>
+  <li>데이터베이스 &gt; 테이블 &gt; 레코드 순으로 구성</li>
+</ul>
+
+<h1 id="데이터베이스-생성">데이터베이스 생성</h1>
+<ul>
+  <li>데이터베이스(혹은 스키마)를 생성하기 위해서는 <code class="language-plaintext highlighter-rouge">CREATE DATEBASE [db_schema_name]</code> 명령어를 사용한다.
+    <ul>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476001-6878b700-4df5-11eb-993c-f5cebfb68cf1.PNG" alt="CREATE_DATABASE" /></li>
+    </ul>
+  </li>
+  <li>이후, 해당 데이터베이스를 사용하기 위해 <code class="language-plaintext highlighter-rouge">USE[db_schema_name]</code>을 사용하면 된다.
+    <ul>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476013-86461c00-4df5-11eb-8b88-28fa13ff7626.PNG" alt="USE_DATABASE" /></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="테이블-생성수정삭제">테이블 생성/수정/삭제</h1>
+<ul>
+  <li>테이블을 생성하기 위해서는 다음과 같은 명령어를 사용한다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Create Table [Table_name] (
+  column1 date_type [default value],
+  column2 date_type [default value]
+  )
+</code></pre></div>    </div>
+    <ul>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476020-90681a80-4df5-11eb-86bd-ca2b77564d30.PNG" alt="CREATE_TABLE" />
+        <blockquote>
+          <ul>
+            <li>AUTO_INCREMENT : 인덱스(정수값)를 체크해 자동으로 올려주는 옵션</li>
+            <li>CURRENT_TIMESTAMP() : 현재 날짜와 시간을 반환.</li>
+            <li>on update CURRENT_TIMESTAMP() : 데이터가 바뀔 때마다 자동으로 원하는 컬럼에 현재 시간으로 자동 업데이트 해주는 기능</li>
+          </ul>
+        </blockquote>
+      </li>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476045-c73e3080-4df5-11eb-90d1-e6d8af10855f.PNG" alt="CREATE_TABLE_결과" /></li>
+    </ul>
+  </li>
+  <li>테이블을 수정하기 위해서는 다음과 같은 명령어를 사용한다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  칼럼 추가 &gt; ALTER TABLE [table_name] ADD COLUMN [column] [data_type];
+
+  칼럼 변경 &gt; ALTER TABLE [table_name] MODIFY COLUMN [column] [data_type];
+
+  칼럼 삭제 &gt; ALTER TABLE [table_name] DROP COLUMN [column];
+</code></pre></div>    </div>
+    <ul>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476047-c7d6c700-4df5-11eb-909f-3e6c465e055e.PNG" alt="ADD_COLUMN" /></li>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476050-c907f400-4df5-11eb-93ec-ea76b262ec57.PNG" alt="MODIFY_COLUMN" /></li>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476051-ca392100-4df5-11eb-802a-ccdb4d8b1797.PNG" alt="DROP_COLUMN" /></li>
+    </ul>
+  </li>
+  <li>테이블의 구조를 확인하기 위해서는 위에서 쓴 명령어와 같이 <code class="language-plaintext highlighter-rouge">DESC [table_name]</code>을 사용한다.</li>
+  <li>테이블을 삭제하기 위해서는 <code class="language-plaintext highlighter-rouge">DROP [table_name]</code>을 사용한다.</li>
+  <li>테이블을 초기화하기 위해서는 <code class="language-plaintext highlighter-rouge">TRUNCATE [table_name]</code>을 사용한다.
+    <blockquote>
+      <p>AUTO_INCREMENT 캐시값도 모두 초기화 된다.</p>
+    </blockquote>
+  </li>
+</ul>
+
+<h1 id="데이터-삽입조회수정삭제">데이터 삽입/조회/수정/삭제</h1>
+<ul>
+  <li>데이터를 삽입하기 위해서는 다음과 같은 명령어를 사용한다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  INSERT INTO [table_name] [column1, column2...]
+  VALUES (value1, value2...);
+</code></pre></div>    </div>
+    <ul>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476055-d1602f00-4df5-11eb-9c93-dedf9ee0eac2.PNG" alt="INSERT_DATA" /></li>
+    </ul>
+  </li>
+  <li>데이터 조회
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">SELECT</code>와  <code class="language-plaintext highlighter-rouge">WHERE</code> 명령어를 사용하여 조회 할 수 있다.</li>
+      <li><code class="language-plaintext highlighter-rouge">SELECT [colum1, column2..] FROM [table_name] WHERE [조건]</code></li>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476057-d329f280-4df5-11eb-92f9-a846976b4482.PNG" alt="SELECT_DATA_1" /></li>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476060-d4f3b600-4df5-11eb-9920-d623406fa8ab.PNG" alt="SELECT_DATA_2" /></li>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476061-d58c4c80-4df5-11eb-80e7-8f368a9e1b2f.PNG" alt="SELECT_DATA_3" /></li>
+    </ul>
+  </li>
+  <li>데이터 수정은 <code class="language-plaintext highlighter-rouge">UPDATE [table_name] SET colum1 = val1 [, colum2 = val2...] [WHERE 조건];</code> 명령어를 통해 수정할 수 있다.
+    <ul>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476062-d6bd7980-4df5-11eb-821f-176ed37bc45e.PNG" alt="UPDATE_DATA" /></li>
+    </ul>
+  </li>
+  <li>데이터 삭제는 <code class="language-plaintext highlighter-rouge">DELETE FROM [table_name] [WHERE 조건];</code> 명령어를 사용한다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  DELETE FROM [table_name] // 테이블 전체 삭제
+  !!! TRUNCATE 와 달리, 데이터만 지우는 것이기에 다음 데이터 삽입때
+  id(auto_incresement) 는 최근 id 값에서 증가된 값이 저장
+
+  DELETE FROM [table_name] WHERE name = ‘철수’;
+</code></pre></div>    </div>
+    <ul>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476063-d91fd380-4df5-11eb-90bf-ad34f92d1025.PNG" alt="DELETE_DATA" /></li>
+      <li><img src="https://user-images.githubusercontent.com/46861704/103476064-da510080-4df5-11eb-9106-d2d2e244d06f.PNG" alt="DELETE_DATA_ALL" /></li>
+    </ul>
+  </li>
+</ul>
+
+:ET
