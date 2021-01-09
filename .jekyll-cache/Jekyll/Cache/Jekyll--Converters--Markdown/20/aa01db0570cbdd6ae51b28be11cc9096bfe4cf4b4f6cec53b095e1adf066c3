@@ -1,0 +1,105 @@
+I"�$<h1 id="jdbc">JDBC</h1>
+<ul>
+  <li>JDBC(Java DataBase Connectivity)는 자바에서 데이터베이스와 관련된 작업을 처리할 수 있도록 도와주는 API 이다</li>
+  <li>JDBC는 추상화된 인터페이스를 제공하고, 각 벤더들은 각자의 DBMS에 맞게 실제 구현부를 제공하여 JDBC드라이버만 있으면 코드의 종속성 없이 사용 가능하다.
+    <h2 id="jdbc가-필요한-이유">JDBC가 필요한 이유</h2>
+  </li>
+  <li>JDBC가 없으면, 각 벤더마다(MS-SQL,MySQL,Oracle…) 접근/사용 방법이 다르다.</li>
+  <li>특정 DB에 대한 프로그램의 종속성과 호환성 문제가 해결된다.
+    <ul>
+      <li>DB 접근 및 사용방법에 대한 표준화</li>
+      <li>자바 어플리케이션과 DB와의 독립성</li>
+    </ul>
+  </li>
+  <li>따라서, 표준화된 인터페이스를 제공하는 JDBC가 등장</li>
+</ul>
+
+<h2 id="jdbc-driver-jdbc-architecture">JDBC Driver, JDBC Architecture</h2>
+<p><img src="https://user-images.githubusercontent.com/46861704/103537181-4b1c1980-4ed7-11eb-8a52-dbbcbc10191a.png" alt="JDBC_Architecture" /></p>
+<ul>
+  <li>JDBC Driver란, JDBC 인터페이스(Sun에서 만들어놓은 표준)에 대한 DB벤더들이 구현한 클래스 라이브러리이다.
+    <ul>
+      <li>해당 DB벤더의 홈페이지에서 다운 가능</li>
+      <li>개발된 어플리케이션에서 DB변경시 JDBC드라이버만 교체하면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="mysql-jdbc-활용">MySQL JDBC 활용</h2>
+<ul>
+  <li>JAVA로 다음 MySQL 데이터베이스에 접근하여 보겠다.</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/46861704/103538998-9552ca00-4eda-11eb-8177-d9ec87c701f3.png" alt="image" /></p>
+
+<ul>
+  <li>우선, Maven 기반의 프로젝트를 생성한다.
+    <ul>
+      <li>Maven이란? : JAVA용 프로젝트 관리도구. 필요한 라이브러리를 특정 문서(pom.xml)에 정의해 놓으면 내가 사용할 라이브러리 뿐만 아니라 해당 라이브러리가 작동하는데에 필요한 다른 라이브러리들까지 관리하여 네트워크를 통해서 자동으로 다운받아 준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/46861704/103539737-e911e300-4edb-11eb-9916-0d645a23350a.png" alt="image" /></p>
+
+<ul>
+  <li>pom.xml에 MySQL JDBC 라이브러리를 추가해준다.
+    <ul>
+      <li>https://mvnrepository.com/ 에서 참조 가능</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/46861704/103540194-b5838880-4edc-11eb-931a-8abbd46104f1.png" alt="image" /></p>
+
+<ul>
+  <li>전체 코드</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">jdbcExample</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.sql.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">className</span> <span class="o">=</span> <span class="s">"com.mysql.cj.jdbc.Driver"</span><span class="o">;</span> <span class="c1">// 드라이버</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">dbUrl</span> <span class="o">=</span> <span class="s">"jdbc:mysql://localhost:3306/week2?serverTimezone=UTC"</span><span class="o">;</span> <span class="c1">// 접속할 Database 서버</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">dbUser</span> <span class="o">=</span> <span class="s">"root"</span><span class="o">;</span> <span class="c1">// 유저 ID</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">dbPassword</span> <span class="o">=</span> <span class="s">"1234"</span><span class="o">;</span> <span class="c1">// 유저 PW</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">// ClassNotFoundException을 예외처리 해야 된다.</span>
+            <span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">className</span><span class="o">);</span>
+            <span class="c1">// SQLException을 예외처리 해야 된다.</span>
+            <span class="nc">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">dbUrl</span><span class="o">,</span><span class="n">dbUser</span><span class="o">,</span><span class="n">dbPassword</span><span class="o">);</span>
+            <span class="c1">// SQL 쿼리 생성</span>
+            <span class="nc">String</span> <span class="n">query</span> <span class="o">=</span> <span class="s">"SELECT*FROM jdbcTest"</span><span class="o">;</span>
+            <span class="c1">// DB에 SQL쿼리 전달하기 위한 객체 생성</span>
+            <span class="nc">PreparedStatement</span> <span class="n">ps</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+            <span class="c1">// 쿼리 실행 결과 가져오기</span>
+            <span class="nc">ResultSet</span> <span class="n">rs</span><span class="o">=</span><span class="n">ps</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+
+            <span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
+                <span class="nc">String</span> <span class="n">id</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"id"</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"name"</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">age</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"age"</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"address"</span><span class="o">);</span>
+
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"id:"</span><span class="o">+</span><span class="n">id</span><span class="o">+</span><span class="s">", name:"</span><span class="o">+</span><span class="n">name</span><span class="o">+</span><span class="s">", age:"</span><span class="o">+</span><span class="n">age</span><span class="o">+</span><span class="s">", address:"</span><span class="o">+</span><span class="n">addr</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="c1">// 커넥션 종료</span>
+            <span class="n">conn</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="nc">ClassNotFoundException</span> <span class="n">e</span><span class="o">){</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"ClassNotFoundException 발생"</span><span class="o">);</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">){</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>결과</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/46861704/103546115-d7cdd400-4ee5-11eb-857c-293aef9f4c51.png" alt="JDBC_Result" /></p>
+:ET

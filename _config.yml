@@ -6,10 +6,8 @@ baseurl:            ""
 url:                "https://yunyongwoon.github.io"
 
 # Social Profiles
-twitter_username:   YunYongWoon
 github_username:    YunYongWoon
-facebook_username:  YunYongWoon
-instagram_username:  
+facebook_username:  yun.youngwoon
 linkedin_username:
 
 # Add your google-analytics ID here to activate google analytics

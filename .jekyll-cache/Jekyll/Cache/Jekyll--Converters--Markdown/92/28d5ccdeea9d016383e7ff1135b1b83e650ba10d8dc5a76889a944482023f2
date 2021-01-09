@@ -1,0 +1,16 @@
+I"�<h1 id="jdbc">JDBC</h1>
+<ul>
+  <li>JDBC(Java DataBase Connectivity)는 자바에서 데이터베이스와 관련된 작업을 처리할 수 있도록 도와주는 API 이다</li>
+  <li>JDBC는 추상화된 인터페이스를 제공하고, 각 벤더들은 각자의 DBMS에 맞게 실제 구현부를 제공하여 JDBC드라이버만 있으면 코드의 종속성 없이 사용 가능하다.
+    <h2 id="jdbc가-필요한-이유">JDBC가 필요한 이유</h2>
+  </li>
+  <li>JDBC가 없으면, 각 벤더마다(MS-SQL,MySQL,Oracle…) 접근/사용 방법이 다르다.</li>
+  <li>특정 DB에 대한 프로그램의 종속성과 호환성 문제가 해결된다.
+    <ul>
+      <li>DB 접근 및 사용방법에 대한 표준화</li>
+      <li>자바 어플리케이션과 DB와의 독립성</li>
+    </ul>
+  </li>
+  <li>따라서, 표준화된 인터페이스를 제공하는 JDBC가 등장</li>
+</ul>
+:ET
