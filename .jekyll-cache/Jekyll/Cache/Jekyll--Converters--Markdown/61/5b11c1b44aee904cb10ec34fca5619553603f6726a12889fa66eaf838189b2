@@ -1,0 +1,11 @@
+I"�<h2 id="rest">REST</h2>
+<ul>
+  <li>REST는 Representational State Transfer의 약자로, 자원을 관리하기 위한 패턴이다.</li>
+  <li>HTTP의 특성을 이용한다.
+    <ul>
+      <li>HTTP URI(Uniform Resource Identifier)를 통해 자원을 명시</li>
+      <li>HTTP METHOD(POST, PUT, GET, DELETE)를 통해 해당 자원에 대한 CRUD Operation을 적용</li>
+    </ul>
+  </li>
+</ul>
+:ET

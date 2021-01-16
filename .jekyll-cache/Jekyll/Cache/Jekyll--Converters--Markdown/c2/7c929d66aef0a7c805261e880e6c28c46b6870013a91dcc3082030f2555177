@@ -1,0 +1,116 @@
+I"�<h2 id="rest">REST</h2>
+<ul>
+  <li>REST는 Representational State Transfer의 약자로, 자원을 관리하기 위한 패턴이다.</li>
+  <li>HTTP의 특성을 이용한다.
+    <ul>
+      <li>HTTP URI(Uniform Resource Identifier)를 통해 자원을 명시</li>
+      <li>HTTP METHOD(POST, PUT, GET, DELETE)를 통해 해당 자원에 대한 CRUD Operation을 적용</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="rest-구성요소">REST 구성요소</h2>
+<ul>
+  <li>자원(Resource) : URI
+    <ul>
+      <li>모든 자원에 고유한 ID 존재.
+        <ul>
+          <li>해당 자원은 Server에 존재</li>
+        </ul>
+      </li>
+      <li>자원을 구별하는 ID는 ‘/groups/:group_id’와 같은 HTTP URI</li>
+      <li>client는 URI를 이용하여 자원을 지정, 상태(정보)에 대한 조작을 Server에 요청한다.</li>
+    </ul>
+  </li>
+  <li>행위(Verb) : HTTP Method
+    <ul>
+      <li>GET : CRUD의 READ(조회)</li>
+      <li>POST : CRUD의 CREATE(생성)</li>
+      <li>PUT : CRUD의 UPDATE(수정)
+        <ul>
+          <li>PATCH : PUT은 자원 전체를 교체하지만, PATCH는 자원의 부분을 교체.
+            <ul>
+              <li>PUT의 경우 전체가 아닌 일부분의 필드만 전달할 경우 전달한 필드 제외 모두 null 혹은 초기값으로 변하지만, PATCH의 경우 전달한 필드의 값만 변하게 된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>DELETE : CRUD의 DELETE(삭제)</li>
+    </ul>
+  </li>
+  <li>표현(Representation of Resource)
+    <ul>
+      <li>Clinet가 자원의 상태(정보)에 대한 조작을 요청 시, Server는 적절한 응답을 보낸다.</li>
+      <li>REST에서 하나의 자원은 JSON, XML, TEXT, RSS 등 여러 형태의 Representation으로 나타내어 질 수 있아.</li>
+      <li>JSON 혹은 XML을 통해 데이터를 주고 받는 것이 일반적이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="rest-특성">REST 특성</h2>
+<ul>
+  <li>Uniform Interface
+    <ul>
+      <li>URI로 지정한 리소스에 대해 통일된 인터페이스를 가지고 수행한다.</li>
+    </ul>
+  </li>
+  <li>Stateless
+    <ul>
+      <li>세션 관리를 하지 않는다.</li>
+      <li>들어오는 요청만 처리하면 된다.</li>
+    </ul>
+  </li>
+  <li>Cacheable
+    <ul>
+      <li>HTTP가 가진 캐싱 기능을 별도 구현없이 사용 가능(HTTP 통신으로 웹 위에서 동작하기 때문에)</li>
+    </ul>
+  </li>
+  <li>자체 표현 구조
+    <ul>
+      <li>RESTful한 url을 보았을 때 쉽게 이해 가능</li>
+      <li><code class="language-plaintext highlighter-rouge">GET /users</code> : users(복수)의 리소스에서 특정한 user가 아닌 전체에 대해 GET하는 기능</li>
+      <li><code class="language-plaintext highlighter-rouge">GET /users/{id}</code> : users(복수)의 리소스에서 특정한 user에 대해 GET하는 기능</li>
+    </ul>
+  </li>
+  <li>Client-Server 구조
+    <ul>
+      <li>REST 서버는 클라이언트 측과 기능을 확실히 구분할 수 있기 때문에 서로간에 의존성이 줄어든다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="rest-장단점">REST 장단점</h2>
+<ul>
+  <li>장점
+    <ul>
+      <li>HTTP 프로토콜의 인프라를 그대로 사용하므로 REST API사용을 위한 별도의 인프라 구축이 필요 없다.</li>
+      <li>HTTP 프로토콜을 사용하므로 별도의 인프라 구축이 필요 없다.</li>
+      <li>HTTP 표준 프로토콜을 따르는 모든 플랫폼에서 사용 가능하다.</li>
+      <li>REST API 메시지가 의도하는 바를 명확하게 나타내므로 의도하는 바를 쉽게 파악 가능하다.</li>
+      <li>여러가지 서비스 디자인에서 생길 수 있는 문제를 최소화시킨다.</li>
+      <li>서버와 클라이언트의 역할을 명확하게 분리한다.</li>
+    </ul>
+  </li>
+  <li>단점
+    <ul>
+      <li>표준이 존재하지 않는다.</li>
+      <li>사용할 수 있는 메소드가 4가지 밖에 존재하지 않는다</li>
+      <li>HTTP Method 형태가 제한적이다.</li>
+      <li>구형 브라우저가 아직 제대로 지원해주지 못하는 부분이 존재한다.
+        <ul>
+          <li>PUT, DELETE를 사용하지 못하는 점</li>
+          <li>pushState를 지원하지 않는 점</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="reference">Reference</h1>
+<blockquote>
+  <ul>
+    <li><a href="https://gmlwjd9405.github.io/2018/09/21/rest-and-restful.html">[Network] REST란? REST API란? RESTful이란?</a></li>
+    <li><a href="https://papababo.tistory.com/entry/HTTP-METHOD-PUT-vs-PATCH-%EC%B0%A8%EC%9D%B4%EC%A0%90">[HTTP METHOD] PUT vs PATCH 차이점</a></li>
+  </ul>
+</blockquote>
+:ET

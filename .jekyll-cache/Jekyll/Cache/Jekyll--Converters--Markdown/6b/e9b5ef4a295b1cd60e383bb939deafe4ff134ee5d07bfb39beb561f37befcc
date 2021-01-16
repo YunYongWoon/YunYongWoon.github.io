@@ -1,0 +1,207 @@
+I"pB<h1 id="iocdi">IoC/DI</h1>
+<p>IoC(Inversion of Control)는 ‘제어의 역전’, DI(Dependency Injection)은 ‘의존성 주입’ 이라는 뜻이다.</p>
+<ul>
+  <li>IoC : 객체에 대한 제어권이 개발자로부터 컨테이너에게 넘어가면서 객체의 생성부터 생명주기 관리까지의 모든 것을 <strong>컨테이너</strong>가 맡아서 하게 된다. 이를 일반적인 제어권의 흐름이 바뀌었다고 하여 IoC(Inversion of Control : 제어의 역전)라고 한다.
+    <blockquote>
+      <p>컨테이너 : 코드의 처리과정을 위임받은 독립적인 존재. 컨테이너는 적절한 설정만 되어 있다면 누구의 도움 없이도 프로그래머가 작성한 코드를 스스로 참조한 뒤 알아서 객체의 생성과 소멸을 컨트롤해준다.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>DI : 외부에서 객체를 주입하는 행위</p>
+  </li>
+  <li>예시
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">class</span> <span class="nc">Character</span><span class="o">{</span>
+      <span class="kd">private</span> <span class="nc">Sword</span> <span class="n">sword</span><span class="o">;</span>
+
+      <span class="kd">public</span> <span class="nf">Character</span><span class="o">(){</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">sword</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sword</span><span class="o">();</span>
+      <span class="o">}</span>
+
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">useSkill</span><span class="o">(){</span>
+          <span class="n">sword</span><span class="o">.</span><span class="na">skill</span><span class="o">();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">class</span> <span class="nf">Sword</span><span class="o">(){</span>
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">skill</span><span class="o">(){</span>
+          <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"use Sword Skill"</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+    <p>다음과 같은 코드가 있다고 하자. 칼을 사용하는 캐릭터를 표현하는 코드인데, 창을 사용하는 캐릭터로 바꾸고 싶다고 치자. 그렇게 되면, 코드는</p>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">class</span> <span class="nc">Character</span><span class="o">{</span>
+      <span class="kd">private</span> <span class="nc">Spear</span> <span class="n">spear</span><span class="o">;</span>
+
+      <span class="kd">public</span> <span class="nf">Character</span><span class="o">(){</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">spear</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Spear</span><span class="o">();</span>
+      <span class="o">}</span>
+
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">useSkill</span><span class="o">(){</span>
+          <span class="n">spear</span><span class="o">.</span><span class="na">skill</span><span class="o">();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">class</span> <span class="nf">Spear</span><span class="o">(){</span>
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">skill</span><span class="o">(){</span>
+          <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"use Spear Skill"</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+    <p>다음과 같이 변경할 수 있다. 무기가 단순히 바뀌었을 뿐인데, 대부분의 코드가 변경되었다. 이렇게 의존성이 높은 코드들을 의존성이 낮게 바꾸려면, 어떻게 해야 할까?</p>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">interface</span> <span class="nc">Weapon</span><span class="o">{</span>
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">skill</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="kd">class</span> <span class="nc">Sword</span> <span class="n">inplements</span> <span class="nc">Weapon</span><span class="o">{</span>
+      <span class="nd">@override</span>
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">skill</span><span class="o">(){</span>
+          <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"use Sword Skill"</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">class</span> <span class="nc">Spear</span> <span class="n">inplements</span> <span class="nc">Weapon</span><span class="o">{</span>
+      <span class="nd">@override</span>
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">skill</span><span class="o">(){</span>
+          <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"use Spear Skill"</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">class</span> <span class="nc">Character</span><span class="o">{</span>
+      <span class="kd">private</span> <span class="nc">Weapon</span> <span class="n">weapon</span><span class="o">;</span>
+
+      <span class="kd">public</span> <span class="nf">Character</span><span class="o">(</span><span class="nc">Weapon</span> <span class="n">weapon</span><span class="o">){</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">weapon</span> <span class="o">=</span> <span class="n">weapon</span><span class="o">;</span>
+      <span class="o">}</span>
+
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">useSkill</span><span class="o">(){</span>
+          <span class="n">weapon</span><span class="o">.</span><span class="na">skill</span><span class="o">();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+    <p>다음과 같이 인터페이스를 사용하여 Character클래스를 생성 시, 외부에서 무기 객체를 넘겨주는 방식으로 구현이 가능해진다.</p>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nc">Character</span> <span class="n">swordCharacter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Character</span><span class="o">(</span><span class="k">new</span> <span class="nc">Sword</span><span class="o">());</span>
+  <span class="n">swordCharacter</span><span class="o">.</span><span class="na">useSkill</span><span class="o">();</span> <span class="c1">// use Sword Skill</span>
+  <span class="nc">Character</span> <span class="n">spearCharacter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Character</span><span class="o">(</span><span class="k">new</span> <span class="nc">Spear</span><span class="o">());</span>
+  <span class="n">spearCharacter</span><span class="o">.</span><span class="na">useSkill</span><span class="o">();</span> <span class="c1">// use Spear Skill</span>
+</code></pre></div>    </div>
+
+    <p>기존에는 객체에 대한 제어권이 클래스 내부에 있었지만, 바뀐 코드에서는 제어권이 외부에 있게 되었다. 이를 제어의 역전(IoC)라고 하며, 다음과 같이 외부에서 객체를 주입하는 행위를 의존성 주입(DI)이라고 하게 된다.</p>
+  </li>
+  <li>Spring에서의 IoC<br />
+Spring Bean들에 대한 제어권을 Spring 컨테이너가 가지게 되며, 개발자의 필요에 따라 Bean을 다른 객체에게 주입해준다. 즉, Spring 컨테이너가 IoC의 역할을 수행한다.
+<img src="https://user-images.githubusercontent.com/46861704/104812669-3a5c9380-5847-11eb-86be-bb1e558f99e0.png" alt="Spring_Container" />
+    <ul>
+      <li>bean : 스프링에서 제어권을 가지고 직접 만들어 관계를 부여하는 오브젝트
+        <ul>
+          <li>Java Bean, EJB의 Bean과 비슷한 오브젝트 단위의 애플리케이션 컴포넌트이다. 하지만 스프링을 사용하는 애플리케이션에서 만들어지는 모든 오브젝트가 빈은 아니다. 스프링의 빈은 스프링 컨테이너가 생성하고 관계설정, 사용을 제어해주는 오브젝트를 말한다.</li>
+        </ul>
+      </li>
+      <li>bean factory : 스프링의 IoC를 담당하는 핵심 컨테이너
+        <ul>
+          <li>Bean을 등록/생성/조회/반환/관리 한다. 보통 bean factory를 바로 사용하지 않고 이를 확장한 application context를 이용한다. BeanFactory는 bean factory가 구현하는 interface이다. (getBean()등의 메서드가 정의되어 있다.)</li>
+        </ul>
+      </li>
+      <li>application context : bean factory를 확장한 IoC 컨테이너
+        <ul>
+          <li>Bean의 등록/생성/조회/반환/관리 기능은 bean factory와 같지만, 추가적으로 spring의 각종 부가 서비스를 제공한다. ApplicationContext는 application context가 구현해야 하는 interface이며, BeanFactory를 상속한다.</li>
+        </ul>
+      </li>
+      <li>configuration metadata : application context 혹은 bean factory가 IoC를    적용하기 위해 사용하는 메타정보
+        <ul>
+          <li>스프링의 설정정보는 컨테이너에 어떤 기능을 세팅하거나 조정하는 경우에도 사용하지만 주로 bean을 생성/구성하는 용도로 사용한다.</li>
+        </ul>
+      </li>
+      <li>container (ioC container) : IoC 방식으로 bean을 관리한다는 의미에서 bean factory나 application context를 가리킨다.
+        <ul>
+          <li>application context는 그 자체로 ApplicationContext 인터페이스를 구현한 오브젝트를 말하기도 하는데, 하나의 애플리케이션에 보통 여러개의 ApplicationContext 객체가 만들어진다. 이를 통칭해서 spring container라고 부를 수 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Spring에서의 DI<br />
+  어노테이션(Annotation)을 활용하면 Spring 설정파일에서 <code class="language-plaintext highlighter-rouge">&lt;constructor-arg&gt;</code> 혹은 <code class="language-plaintext highlighter-rouge">&lt;property&gt;</code>태그로 의존 객체 대상을 명시하지 않아도 스프링 컨테이너가 자동적으로 의존 대상 객체(Bean)를 찾아준다.
+    <ul>
+      <li>@Autowired
+        <ul>
+          <li>멤버 변수 타입을 보고 그에 맞는 Bean을 탐색하여 주입
+            <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Controller</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">helloController</span><span class="o">{</span>
+      <span class="nd">@Autowired</span>
+      <span class="kd">private</span> <span class="nc">HelloService</span> <span class="n">helloService</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+          <li>주입 가능한 객체가 여러개 존재할 때, 특정 객체를 @Qualifier로 지정할 수 있다.
+            <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Controller</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">helloController</span><span class="o">{</span>
+      <span class="nd">@Autowired</span>
+      <span class="nd">@Qualifier</span><span class="o">(</span><span class="s">"helloServiceImpl"</span><span class="o">)</span>
+      <span class="kd">private</span> <span class="nc">HelloService</span> <span class="n">helloService</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+      <li>@Inject
+        <ul>
+          <li>Java에서 지원하는 어노테이션이며, 객체의 타입을 보고 그에 맞는 Bean을 탐색하여 주입한다.
+            <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Controller</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">helloController</span><span class="o">{</span>
+      <span class="nd">@Inject</span>
+      <span class="kd">private</span> <span class="nc">HelloService</span> <span class="n">helloService</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+          <li>주입 가능한 객체가 여러개 존재할 때, 특정 객체를 @Named로 지정할 수 있다.
+            <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Controller</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">helloController</span><span class="o">{</span>
+      <span class="nd">@Autowired</span>
+      <span class="nd">@Named</span><span class="o">(</span><span class="s">"helloServiceImpl"</span><span class="o">)</span>
+      <span class="kd">private</span> <span class="nc">HelloService</span> <span class="n">helloService</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+          <li>사용하기 위해선 javax 라이브러리 의존성을 추가해야 한다.
+            <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;dependency&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>javax.inject<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>javax.inject<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>1<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+      <li>@Resource
+        <ul>
+          <li>Java에서 지원하는 어노테이션이며, 객체의 이름을 보고 그에 맞는 Bean을 탐색하여 주입한다.
+            <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Controller</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">helloController</span><span class="o">{</span>
+      <span class="nd">@Resource</span>
+      <span class="kd">private</span> <span class="nc">HelloService</span> <span class="n">helloService</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+          <li><code class="language-plaintext highlighter-rouge">(name="ID")</code>로 ID를 강제 지정할 수도 있다.
+            <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Controller</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">helloController</span><span class="o">{</span>
+      <span class="nd">@Resource</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"helloServiceImpl"</span><span class="o">)</span>
+      <span class="kd">private</span> <span class="nc">HelloService</span> <span class="n">helloService</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="reference">Reference</h1>
+<blockquote>
+  <ul>
+    <li><a href="https://pks424.tistory.com/entry/IoC-DI%EB%9E%80">IoC(제어의 역전), DI(의존성 주입)이란??</a></li>
+    <li><a href="https://jongmin92.github.io/2018/02/11/Spring/spring-ioc-di/">Spring - IoC &amp; DI</a></li>
+    <li><a href="https://battlewithmyself.tistory.com/113">Spring DI : auto-wiring, annotation 기반</a></li>
+    <li><a href="https://engkimbs.tistory.com/682">[Spring] 의존객체 자동 주입(Automatic Dependency Injection), @Autowired, @Resource, @Inject</a></li>
+  </ul>
+</blockquote>
+:ET

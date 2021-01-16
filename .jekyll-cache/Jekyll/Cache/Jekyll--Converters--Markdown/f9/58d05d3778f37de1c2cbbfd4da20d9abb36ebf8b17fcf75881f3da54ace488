@@ -1,0 +1,10 @@
+I"Q<h1 id="iocdi">IoC/DI</h1>
+<p>IoC(Inversion of Control)는 ‘제어의 역전’, DI(Dependency Injection)은 ‘의존성 주입’ 이라는 뜻이다.</p>
+<ul>
+  <li>IoC : 객체에 대한 제어권이 개발자로부터 컨테이너에게 넘어가면서 객체의 생성부터 생명주기 관리까지의 모든 것을 <strong>컨테이너</strong>가 맡아서 하게 된다. 이를 일반적인 제어권의 흐름이 바뀌었다고 하여 IoC(Inversion of Control : 제어의 역전)라고 한다.
+    <blockquote>
+      <p>컨테이너 : 코드의 처리과정을 위임받은 독립적인 존재. 컨테이너는 적절한 설정만 되어 있다면 누구의 도움 없이도 프로그래머가 작성한 코드를 스스로 참조한 뒤 알아서 객체의 생성과 소멸을 컨트롤해준다.</p>
+    </blockquote>
+  </li>
+</ul>
+:ET
