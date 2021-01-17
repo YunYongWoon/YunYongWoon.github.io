@@ -1,0 +1,113 @@
+I"�<h1 id="aop란">AOP란?</h1>
+<p>AOP는 Aspect-Oriented Programming의 약자로, 직역하면 관점 지향 프로그래밍이다. 간단히 설명하자면, AOP는 애플리케이션 전체에 걸쳐 사용되는 기능을 재사용하도록 지원하는 것으로, 핵심 기능과 공통 기능을 분리 시켜놓고, 공통 기능을 필요로 하는 핵심 기능들에서 사용하는 방식이다.
+<img src="https://user-images.githubusercontent.com/46861704/104831212-168e6180-58ca-11eb-9040-94c0a602c716.png" alt="AOP_1" /></p>
+
+<h1 id="aop-용어-정리">AOP 용어 정리</h1>
+<ul>
+  <li>타겟(Target)
+    <ul>
+      <li>핵심 기능을 담고 있는 모듈</li>
+      <li>타겟은 부가기능을 부여할 대상이 된다.</li>
+    </ul>
+  </li>
+  <li>어드바이스(Advice)
+    <ul>
+      <li>타겟에 제공할 부가기능을 담고 있는 모듈</li>
+      <li>Aspect의 기능 자체</li>
+      <li>
+        <p>Advice의 종류</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>종류</th>
+              <th>공통기능 수행 시점</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>@Before</td>
+              <td>대상 객체의 메소드 호출 전</td>
+            </tr>
+            <tr>
+              <td>@AfterReturning</td>
+              <td>대상 객체의 메소드가 익셉션 없이 실행된 이후</td>
+            </tr>
+            <tr>
+              <td>@Around</td>
+              <td>대상 객체의 메소드 실행 전, 후 또는 익셉션 발생 시점</td>
+            </tr>
+            <tr>
+              <td>@After</td>
+              <td>대상 객체의 메소드 실행 후(익셉션 상관없이)</td>
+            </tr>
+            <tr>
+              <td>@AfterThrowing</td>
+              <td>대상 객체의 메소드를 실행하는 도중 익셉션이 발생한 시점</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li>조인 포인트(Join Point)
+    <ul>
+      <li>어드바이스가 적용될 수 있는 위치를 말한다.</li>
+      <li>Advice를 적용해야 되는 부분(필드, 메소드)를 의미한다. 스프링에서는 메소드만 공통기능을 할당할 수 있다.</li>
+      <li>즉, 타겟 객체가 구현한 인터페이스의 모든 메서드는 조인 포인트가 된다.</li>
+    </ul>
+  </li>
+  <li>포인트컷(Pointcut)
+    <ul>
+      <li>Joint Point의 부분으로 실제로 Advice가 적용된 부분</li>
+      <li>어드바이스를 적용할 타겟의 메서드를 선별하는 정규표현식이다.</li>
+      <li>포인트컷 표현식은 <code class="language-plaintext highlighter-rouge">execution</code>으로 시작하고, 메서드의 signature를 비교하는 방법을 주로 이용한다.</li>
+    </ul>
+  </li>
+  <li>애스팩트(Aspect)
+    <ul>
+      <li>AOP의 기본 모듈이다.</li>
+      <li>공통기능 = 부가기능</li>
+      <li>Aspect = Advice + Pointcut</li>
+      <li>싱글톤 형태의 객체로 존재한다.</li>
+    </ul>
+  </li>
+  <li>어드바이저(Advisor)
+    <ul>
+      <li>Advisor = Advice + Pointcut</li>
+      <li>Spring AOP에서만 사용되는 특별한 용어로, Advisor와 Aspect는 동일하다. Aspect라는 용어를 주로 사용한다.</li>
+    </ul>
+  </li>
+  <li>위빙(Weaving)
+    <ul>
+      <li>Pointcut에 의해서 결정된 타겟의 Join Point에 부가기능(Advice)을 삽입하는 과정</li>
+      <li>Advice를 핵심기능에 적용하는 행위이다.</li>
+      <li>AOP가 핵심기능(Target)의 코드에 영향을 주지 않으면서 필요한 부가기능(Advice)을 추가할 수 있도록 해주는 핵심적인 처리과정</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="spring에서의-aop-처리-방법">Spring에서의 AOP 처리 방법</h1>
+<ul>
+  <li>프록시 방식
+    <ul>
+      <li>프록시 패턴은 타겟을 감싸서 타겟의 요청을 대신 받아 수행하는 패턴으로, 타겟 메소드 실행 전에 선처리, 혹은 실행 후 후처리 등을 수행할 수 있다.
+  <img src="https://user-images.githubusercontent.com/46861704/104831653-34f65c00-58ce-11eb-9682-0e5a4df7511f.png" alt="AOP_Proxy" /></li>
+    </ul>
+  </li>
+  <li>AspectJ 방식
+    <ul>
+      <li>타겟이 JVM에 올라갈 때 타겟을 바이트코드로 변환 후 부가기능을 끼워넣는다. 즉, 원래의 하나의 코드인 것처럼 만든 후 실행하는것.
+  <img src="https://user-images.githubusercontent.com/46861704/104831714-c1a11a00-58ce-11eb-8160-016be08137f1.png" alt="AOP_AspectJ" /></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="reference">Reference</h1>
+<blockquote>
+  <ul>
+    <li><a href="https://jojoldu.tistory.com/71">AOP 정리 (3)</a></li>
+    <li><a href="https://codedragon.tistory.com/9014">AOP 용어</a></li>
+  </ul>
+</blockquote>
+:ET

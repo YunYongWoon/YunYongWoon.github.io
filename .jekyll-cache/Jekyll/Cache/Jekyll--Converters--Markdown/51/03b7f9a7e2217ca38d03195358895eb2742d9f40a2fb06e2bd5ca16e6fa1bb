@@ -1,0 +1,4 @@
+I"<h1 id="aop란">AOP란?</h1>
+<p>AOP는 Aspect-Oriented Programming의 약자로, 직역하면 관점 지향 프로그래밍이다. 간단히 설명하자면, AOP는 애플리케이션 전체에 걸쳐 사용되는 기능을 재사용하도록 지원하는 것으로, 핵심 기능과 공통 기능을 분리 시켜놓고, 공통 기능을 필요로 하는 핵심 기능들에서 사용하는 방식이다.
+<img src="https://user-images.githubusercontent.com/46861704/104831212-168e6180-58ca-11eb-9040-94c0a602c716.png" alt="AOP_1" /></p>
+:ET
