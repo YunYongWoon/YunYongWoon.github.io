@@ -1,4 +1,4 @@
-I"�<h1 id="table-join">Table Join</h1>
+I"<h1 id="table-join">Table Join</h1>
 <ul>
   <li>두개 이상의 테이블을 묶어서(Join) 데이터를 조회/수정 할 때 사용한다.</li>
   <li>사용 이유
@@ -46,8 +46,9 @@
     <p>Driving 테이블(LEFT) 과 Driven 테이블(RIGHT) 로부터 Driving 테이블의 레코드는 모두 출력하고, Driven 테이블은 조건에 만족하든/만족안하든 출력(NULL 출력)</p>
   </li>
   <li>
-    <p>INNER JOIN과 같은 데이터베이스에서, User1에는 (‘영진’,5,’남’), User2에는 (‘초희’,’한기고’,100) 데이터가 추가로 입력되었다. 여기서 LEFT(RIGHT) JOIN시, 다음과 같이 나타나게 된다.
-  <img src="https://user-images.githubusercontent.com/46861704/103477349-72081c00-4e01-11eb-8809-b73a38fa623b.png" alt="LEFT_JOIN" /></p>
+    <p>INNER JOIN과 같은 데이터베이스에서, User1에는 (‘영진’,5,’남’), User2에는 (‘초희’,’한기고’,100) 데이터가 추가로 입력되었다. 여기서 LEFT(RIGHT) JOIN시, 다음과 같이 나타나게 된다.</p>
+
+    <p><img src="https://user-images.githubusercontent.com/46861704/103477349-72081c00-4e01-11eb-8809-b73a38fa623b.png" alt="LEFT_JOIN" /></p>
 
     <p><img src="https://user-images.githubusercontent.com/46861704/103477368-a24fba80-4e01-11eb-87e6-7e37572c2afe.png" alt="RIGHT_JOIN" /></p>
   </li>

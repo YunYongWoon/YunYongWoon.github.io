@@ -1,0 +1,9 @@
+I"}<h1 id="applicationcontext-이란">applicationContext 이란?</h1>
+<ul>
+  <li>Root Context이자 스프링에 의해 생성되는 Bean에 대한 Spring IoC Container입니다.</li>
+  <li>BeanFactory를 상속받는 Context</li>
+  <li>여러 Servlet에서 공통으로 사용할 Bean을 등록하는 Context입니다.</li>
+  <li>@Transactional 으로 트랜잭션을 이용해야할 때 ApplicationContext에 있는 Service에서만 트랜잭션이 정상 작동합니다.</li>
+  <li>보통 데이터 베이스와 관련한 설정이 들어가며, 모든 서블릿과 필터에 우선적으로 필요한 내용을 포함한다</li>
+</ul>
+:ET

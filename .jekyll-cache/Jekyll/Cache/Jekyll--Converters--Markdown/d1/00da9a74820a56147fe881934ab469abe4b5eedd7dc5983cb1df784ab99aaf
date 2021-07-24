@@ -1,0 +1,88 @@
+I"Z<h1 id="servlet이란">Servlet이란?</h1>
+<p>웹 기반의 요청에 대한 동적인 처리가 가능한 하나의 클래스.</p>
+<ul>
+  <li>클라이언트의 요청을 처리하고, 그 결과를 반환하는 Servlet 클래스의 구현 규칙을 지킨 자바 웹 프로그래밍 기술</li>
+  <li>쉽게 설명하면 클라이언트가 어떠한 요청을 하면 그에 대한 결과를 다시 전송해주어야 하는데, 이러한 역할을 하는 자바 프로그램</li>
+</ul>
+
+<h1 id="servlet의-생명주기lifecycle">Servlet의 생명주기(Lifecycle)</h1>
+<p><img src="https://user-images.githubusercontent.com/46861704/106377702-32255c00-63e2-11eb-8f23-9a17b1d66aa4.png" alt="image" /></p>
+
+<ol>
+  <li>객체생성
+    <ul>
+      <li>클라이언트의 적절한 요청에 따라 적절한 Servlet이 생성된다.</li>
+      <li>생성시 객체는 메모리에 계속 존재하므로 새로운 객체가 생성되지 않고, 메모리에 있는 Servlet 객체를 사용한다.</li>
+    </ul>
+  </li>
+  <li>init()
+    <ul>
+      <li>객체 생성시 단 한번만 호출됨</li>
+    </ul>
+  </li>
+  <li>Service()
+    <ul>
+      <li>클라이언트의 요청이 있을 때 Service()가 GET, POST 여부에 따라 실행된다. 여러 클라이언트가 동시에 호출시에도 Thread가 생성되므로 동시에 Service()하여 수행속도가 빠르다.</li>
+      <li>HttpServlet을 상속받은 Servlet클래스에서 Service() 메서드를 오버라이드 하지 않았다면, 그 부모인 HttpServlet의 Service() 메서드가 호출된다.
+        <ul>
+          <li>Service() 메서드는 request의 타입에 따라 적절한 메스드(doGet, doPost, doPut, doDelete)를 호출한다.</li>
+          <li>하위 메서드에 doGet, doPost등을 오버라이드하면 HttpServletdml Service() 메서드가 요청에 맞는 메서드를 알아서 호출한다.</li>
+        </ul>
+      </li>
+      <li>메서드가 return 하면 해당 Thread가 제거된다.</li>
+    </ul>
+  </li>
+  <li>destroy()
+    <ul>
+      <li>서블릿이 더 이상 필요 없을 경우(WAS 종료, Web Application 갱신 등) 호출되면서 Servlet 객체를 메모리에서 제거.</li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="servlet의-동작과정">Servlet의 동작과정</h1>
+<p><img src="https://user-images.githubusercontent.com/46861704/106377413-2c2e7b80-63e0-11eb-8c63-d80a7366c4b3.png" alt="image" /></p>
+
+<ol>
+  <li>클라이언트가 웹 브라우저에 URL 입력 시 해당하는 HTTP Request를 해당하는 서버의 <strong>Servlet Container</strong>에 보낸다.</li>
+  <li>Servlet Container는 <strong>HttpServletRequest</strong>, <strong>HttpServletResponse</strong> 두 객체를 생성한다().
+    <ul>
+      <li>HttpServletRequest : 요청할 때 가지고 있는 정보를 저장하는 객체</li>
+      <li>HttpServletResponse : 응답을 보낼 때 사용하기 위한 객체</li>
+    </ul>
+  </li>
+  <li>클라이언트가 요청한 URL을 DD(배포서술자, Deplyment Descriptor)를 참조해서 분석하여 어느 서블릿에 대한 요청인지 찾는다.</li>
+  <li>Servlet Container는  service() 메소드를 호출하며, POST, GET 여부에 따라 doGet(), doPost() 등을 호출한다.</li>
+  <li>doGet(), doPost() 메소드는 동적인 페이지를 생성한 후 HttpServletResponse 객체에 응답을 보낸다.</li>
+  <li>응답이 완료되면 HttpServletRequest, HttpServletResponse를 소멸시킨다.</li>
+</ol>
+
+<h1 id="servlet-container">Servlet Container</h1>
+<p>Servlet Container는 말 그대로 서블릿을 관리해주는 컨테이너로, 아래와 같은 역할을 수행한다.</p>
+<ol>
+  <li>서블릿 관리
+    <ul>
+      <li>적절한 서블릿을 찾아 매칭, 생명주기 관리</li>
+    </ul>
+  </li>
+  <li>웹서버와 통신 지원
+    <ul>
+      <li>컨테이너 내의 소켓을 통해 웹서버와 통신할수 있게 해줌</li>
+    </ul>
+  </li>
+  <li>요청에 따른 스레드 관리
+    <ul>
+      <li>클라이언트의 요청들을 멀티스레드로 관리하여 처리</li>
+    </ul>
+  </li>
+</ol>
+
+<p>대표적인 Servlet Container로는 Tomcat, jetty, jboss 등이 있다.</p>
+
+<h1 id="reference">Reference</h1>
+<blockquote>
+  <ul>
+    <li><a href="https://gmlwjd9405.github.io/2018/10/28/servlet.html">[Web] Servlet이란</a></li>
+    <li><a href="https://hackersstudy.tistory.com/72">Servlet의 동작 과정 및 생명주기</a></li>
+  </ul>
+</blockquote>
+:ET
