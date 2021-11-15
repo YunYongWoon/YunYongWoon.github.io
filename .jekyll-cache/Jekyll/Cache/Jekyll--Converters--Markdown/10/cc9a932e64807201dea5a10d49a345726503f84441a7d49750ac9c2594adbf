@@ -1,0 +1,145 @@
+I"b-<h2 id="예외exception-란">예외(Exception) 란?</h2>
+<ul>
+  <li>프로그램 실행 시 의도하지 않게 발생하는 문제점</li>
+  <li>개발자가 어느정도 대처할 수 있는 문제들이다. 대처할 수 없는 문제들은 에러(Error) 라고 부른다.</li>
+  <li>JAVA에서는 java.lang.Exception클래스와 그 서브클래스들로 정의된다.
+<img src="https://images.velog.io/images/yuyun0124/post/00b6047b-dbb7-40fd-a4c2-c0608653da60/%E1%84%8B%E1%85%A8%E1%84%8B%E1%85%AC.png" alt="" /></li>
+</ul>
+
+<h2 id="체크예외와-언체크예외">체크예외와 언체크예외</h2>
+<ul>
+  <li>Exception클래스는 체크예외와 언체크예외로 나뉘어진다.</li>
+</ul>
+
+<h3 id="체크예외">체크예외</h3>
+<ul>
+  <li>Exception을 상속하는 예외들 중, RuntimeException을 상속하지 않는 예외들.</li>
+  <li>체크 예외가 발생할 수 있는 메소드를 사용하는 경우, 반드시 예외를 처리하는 코드를 함께 작성해야 한다.
+    <ul>
+      <li>try~catch로 잡는 방법</li>
+      <li>throws 정의하여 메소드 밖으로 던지는 방법</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="언체크런타임-예외">언체크/런타임 예외</h3>
+<ul>
+  <li>java.lang.RuntimeException 클래스를 상속한 예외들은 명시적인 예외처리를 강제하지 않기 때문에 언체크 예외(Unchecked Exception)라고 부른다.</li>
+  <li>try~catch, throws로 선언해줘도, 혹은 선언해주지 않아도 된다.</li>
+  <li>주로 프로그램의 오류가 있을 때 발생하도록 의도된 것들.
+    <ul>
+      <li>오브젝트를 할당하지 않은 레퍼런스 변수를 사용하려고 시도했을 때 발생하는 NullPointerException
+ 	- 허용되지 않는 값을 사용해서 메소드를 호출할 때 발생하는 IllegalArgumentException
+        <ul>
+          <li>기타등등…..</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="예외-처리-방법">예외 처리 방법</h2>
+<h3 id="예외-복구">예외 복구</h3>
+<ul>
+  <li>예외상황을 파악하고, 문제를 해결하여 정상 상태로 돌려놓는 것.</li>
+  <li>코드
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kt">int</span> <span class="n">maxretry</span> <span class="o">=</span> <span class="no">MAX_RETRY</span>
+  <span class="nf">while</span><span class="o">(</span><span class="n">maxretry</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">){</span>
+      <span class="k">try</span><span class="o">{</span>
+          <span class="o">...</span>		<span class="c1">// 예외가 발생할 가능성이 있는 시도</span>
+          <span class="k">return</span>	<span class="c1">// 작업 성공</span>
+      <span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nc">SomeException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">// 로그 출력, 정해진 시간만큼 대기</span>
+      <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+          <span class="c1">// 리소스 반납. 정리 작업</span>
+      <span class="o">}</span>    
+  <span class="o">}</span>
+  <span class="k">throw</span> <span class="k">new</span> <span class="nf">RetryFailedException</span><span class="o">();</span> <span class="c1">// 최대 시도 횟수를 넘기면 직접예외 발생</span>
+</code></pre></div>    </div>
+  </li>
+  <li>예외처리 코드를 강제하는 체크 예외들은 이렇게 예외를 어떤 식으로든 복구할 가능성이 있는 경우 사용.</li>
+</ul>
+
+<h3 id="예외-회피">예외 회피</h3>
+<ul>
+  <li>예외처리를 자신이 담당하지 않고, 자신을 호출한 쪾으로 던져버리는 것.</li>
+  <li>throws문으로 선언해서 예외가 발생하면 알아서 던져지게 하거나, catch 문으로 일단 예외를 잡은 후에 로그를 남기고 다시 예외를 던지는 방법을 사용한다.
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// 회피방법 1</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add1</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">SQLException</span><span class="o">{</span>
+      <span class="c1">// JDBC API</span>
+  <span class="o">}</span>
+  <span class="c1">// 회피방법 2</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add2</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">SQLException</span><span class="o">{</span>
+      <span class="k">try</span><span class="o">{</span>
+          <span class="c1">// JDBC API</span>
+      <span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">// 로그 출력</span>
+          <span class="k">throw</span> <span class="n">e</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="예외-전환">예외 전환</h3>
+<ul>
+  <li>예외 회피와 비슷하게 예외를 복구해서 정상적인 상태로 만들 수 없기 때문에 예외를 메소드를 밖으로 던지는 것이다.</li>
+  <li>하지만 예외 회피와는 다르게, 발생한 예외를 적절한 예외로 전환해서 던진다.</li>
+  <li>내부에서 발생한 예외를 그대로 던지는 것이 그 예외상황에 대한 적절한 의미를 부여해주지 못하는 경우
+    <ul>
+      <li>의미를 분명하게 해줄 수 있는 예외로 바꿔줄 수 있다.</li>
+      <li>다음 코드에서는, 아이디가 중복 시 단순 SQLException이 아닌 DuplicateUserIdException을 던져줄 수 있다.
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">void</span>  <span class="nf">add</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">DuplicateUserIdException</span><span class="o">,</span><span class="nc">SQLException</span><span class="o">{</span>
+        <span class="k">try</span><span class="o">{</span>
+            <span class="c1">// JDBC를 이용해 user 정보를 DB에 추가하는 코드 또는</span>
+            <span class="c1">// 그런 기능을 가진 다른 SQLException을 던지는메소드를 호출하는 코드</span>
+        <span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">){</span>
+            <span class="c1">// ErrorCode가 MySQL의 "Duplicate Entry(1062)" 이면예외 전환</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getErrorCode</span><span class="o">()</span> <span class="o">==</span> <span class="n">MysqlErrorNumbersER_DUP_ENTRY</span><span class="o">)</span>
+                <span class="k">throw</span> <span class="nf">DuplicateUserIdException</span><span class="o">();</span>
+            <span class="k">else</span>
+                <span class="k">throw</span> <span class="n">e</span><span class="o">;</span> <span class="c1">// 그 이외의 경우는 SQLException 그대로</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>보통 전환하는 예외에 원래 발생한 예외를 담아서 중첩 예외로 만드는 것이 좋다.
+    <ul>
+      <li>중첩 예외는 getCause() 메소드를 사용하여 처음 발생한 예외가 무엇인지 확인 할 수 있다.
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 중첩 예외 1</span>
+<span class="k">catch</span><span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">){</span>
+    <span class="o">...</span>
+    <span class="k">throw</span> <span class="nf">DuplicateUserIdException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="c1">// 중첩 예외 2</span>
+<span class="k">catch</span><span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">){</span>
+    <span class="o">...</span>
+    <span class="k">throw</span> <span class="nf">DuplicateUserIdException</span><span class="o">().</span><span class="na">initCause</span><span class="o">(</span><span class="n">e</span><span class="o">);</span> <span class="c1">// 근본원인이 되는 메소드를 넣어준다.</span>
+<span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>예외를 처리하기 쉽고 단순하게 만들기 위해 포장
+    <ul>
+      <li>주로 예외처리를 강제하는 체크 예외를 언체크 예외인 런타임 예외로 바꾸는 경우 사용한다.
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">try</span><span class="o">{</span>
+      <span class="nc">OrederHome</span> <span class="n">orderHome</span> <span class="o">=</span> <span class="nc">EJBHomeFactory</span><span class="o">.</span><span class="na">getInstance</span><span class="o">().</span><span class="na">getOrderHome</span><span class="o">();</span>
+      <span class="nc">Order</span> <span class="n">order</span> <span class="o">=</span> <span class="n">orderHome</span><span class="o">.</span><span class="na">findByPrimaryKey</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">id</span><span class="o">);</span>
+  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">NamingException</span> <span class="n">ne</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">EJBException</span><span class="o">(</span><span class="n">ne</span><span class="o">)</span>
+  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">se</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">EJBException</span><span class="o">(</span><span class="n">se</span><span class="o">)</span>
+  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">RemoteException</span> <span class="n">re</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">EJBException</span><span class="o">(</span><span class="n">re</span><span class="o">)</span>
+  <span class="o">}</span> 
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>체크예외를 계속 throws를 사용하여 넘기는 것은 메소드 선언이 지저분해지고, 아무런 장점이 없다. 복구 불가능한 예외라면, 가능한 빨리 런타임 예외로 포장해 던지게 해서 다른 계층의 메소드를 작성할 때 불필요한 throws 선언이 들어가지 않게 해 줘야 한다.</li>
+</ul>
+
+:ET

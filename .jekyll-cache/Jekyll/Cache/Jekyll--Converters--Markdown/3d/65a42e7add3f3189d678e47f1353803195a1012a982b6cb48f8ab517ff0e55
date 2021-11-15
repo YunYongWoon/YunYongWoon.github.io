@@ -1,0 +1,8 @@
+I"<h2 id="예외exception-란">예외(Exception) 란?</h2>
+<ul>
+  <li>프로그램 실행 시 의도하지 않게 발생하는 문제점</li>
+  <li>개발자가 어느정도 대처할 수 있는 문제들이다. 대처할 수 없는 문제들은 에러(Error) 라고 부른다.</li>
+  <li>JAVA에서는 java.lang.Exception클래스와 그 서브클래스들로 정의된다.
+<img src="https://images.velog.io/images/yuyun0124/post/00b6047b-dbb7-40fd-a4c2-c0608653da60/%E1%84%8B%E1%85%A8%E1%84%8B%E1%85%AC.png" alt="" /></li>
+</ul>
+:ET
