@@ -34,7 +34,7 @@ categories: ['java']
 ### 예외 복구
 - 예외상황을 파악하고, 문제를 해결하여 정상 상태로 돌려놓는 것.
 - 코드 
-~~~~JAVA
+~~~~java
 int maxretry = MAX_RETRY
 while(maxretry-- > 0){
     try{
@@ -53,7 +53,7 @@ throw new RetryFailedException(); // 최대 시도 횟수를 넘기면 직접예
 ### 예외 회피
 - 예외처리를 자신이 담당하지 않고, 자신을 호출한 쪾으로 던져버리는 것.
 - throws문으로 선언해서 예외가 발생하면 알아서 던져지게 하거나, catch 문으로 일단 예외를 잡은 후에 로그를 남기고 다시 예외를 던지는 방법을 사용한다.
-~~~~JAVA
+~~~~java
 // 회피방법 1
 public void add1() throws SQLException{
     // JDBC API
@@ -75,7 +75,7 @@ public void add2() throws SQLException{
 - 내부에서 발생한 예외를 그대로 던지는 것이 그 예외상황에 대한 적절한 의미를 부여해주지 못하는 경우
   - 의미를 분명하게 해줄 수 있는 예외로 바꿔줄 수 있다.
   - 다음 코드에서는, 아이디가 중복 시 단순 SQLException이 아닌 DuplicateUserIdException을 던져줄 수 있다.
-~~~~JAVA
+~~~~java
     public void  add(User user) throws DuplicateUserIdException,SQLException{
         try{
             // JDBC를 이용해 user 정보를 DB에 추가하는 코드 또는
@@ -92,7 +92,7 @@ public void add2() throws SQLException{
 - 보통 전환하는 예외에 원래 발생한 예외를 담아서 중첩 예외로 만드는 것이 좋다.
   - 중첩 예외는 getCause() 메소드를 사용하여 처음 발생한 예외가 무엇인지 확인 할 수 있다. 
  
-~~~~JAVA
+~~~~java
     // 중첩 예외 1
     catch(SQLException e){
         ...
@@ -106,7 +106,7 @@ public void add2() throws SQLException{
 ~~~~
 - 예외를 처리하기 쉽고 단순하게 만들기 위해 포장
 	- 주로 예외처리를 강제하는 체크 예외를 언체크 예외인 런타임 예외로 바꾸는 경우 사용한다.
-~~~~JAVA
+~~~~java
     try{
         OrederHome orderHome = EJBHomeFactory.getInstance().getOrderHome();
         Order order = orderHome.findByPrimaryKey(Integer id);
